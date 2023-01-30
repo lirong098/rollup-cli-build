@@ -1,0 +1,30 @@
+{
+  "name": "@yeez/rollup-cli-build",
+  "version": "1.0.1",
+  "description": "In rollup projects, you can create a `.env` file in the project root directory to specify the env variable",
+  "bin": {
+    "rollup-cli-build": "bin/rollup-cli-build.js"
+  },
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "keywords": [
+    "node",
+    "env",
+    "rollup"
+  ],
+  "author": "Roy",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "dotenv-expand": "^5.1.0",
+    "rollup": "^3.12.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": "^12.0.0 || >= 14.0.0"
+  }
+}
