@@ -5,6 +5,14 @@
   "bin": {
     "rollup-cli-build": "bin/rollup-cli-build.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lirong098/rollup-cli-build"
+  },
+  "bugs": {
+    "url": "https://github.com/lirong098/rollup-cli-build/issues"
+  },
+  "homepage": "https://github.com/lirong098/rollup-cli-build",
   "files": [
     "bin",
     "lib"
