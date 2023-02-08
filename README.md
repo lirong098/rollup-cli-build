@@ -1,11 +1,11 @@
-## rollup-cli-build
+# rollup-cli-build
 
-#### 介绍
+## 介绍
 
 在使用[rollup](https://rollupjs.org/introduction/)的项目中，使用此工具可以在根目录下创建`.env`文件设置环境变量，并且内置了[rollup-plugin-replace](https://github.com/rollup/rollup-plugin-replace)打包时替换文件中的环境变量。
 同时也内置了[rollup-plugin-uglify](https://github.com/TrySound/rollup-plugin-uglify)，默认开启`uglify`，可自定义覆盖，可禁用，具体见下文。
 
-#### 安装
+## 安装
 
 npm
 
@@ -19,9 +19,9 @@ yarn
 yarn add rollup-cli-build -D
 ```
 
-#### 使用
+## 使用
 
-##### 环境变量
+### 环境变量
 
 在项目根目录创建以下文件来设置环境变量：
 
@@ -93,7 +93,7 @@ or
 npm run build:cjs
 ```
 
-上面演示了运行不同的 build 命令读取对应的环境变量，**如果，需要将环境变量打包至代码中，请命名以 CLIENT**APP**\*开头的变量**。内置使用[rollup-plugin-replace](https://github.com/rollup/rollup-plugin-replace)。
+上面演示了运行不同的 build 命令读取对应的环境变量，**如果，需要将环境变量打包至代码中，请命名以 CLIENT\_\_APP\_\_\*开头的变量**。内置使用[rollup-plugin-replace](https://github.com/rollup/rollup-plugin-replace)。
 
 ```dotenv
 # .env.cjs
@@ -102,9 +102,11 @@ CUSTOM_MODE=cjs
 CLIENT__APP__URL=https://www.npmjs.com
 ```
 
-##### uglify
+### uglify
 
 内置的默认配置如下：
+
+> 如不满足您的需求，请自定义 uglify 配置。
 
 ```js
 var { uglify } = require("rollup-plugin-uglify");
@@ -119,12 +121,12 @@ function getUglifyPlugin() {
 }
 ```
 
-###### 自定义 uglify 配置
+#### 自定义 uglify 配置
 
 目前，不支持扩展 uglify 配置，因为，不想扩展 RollupOptions，增加用户理解成本。当工具识别到您自定义配置 uglify 时，内置的 uglify 将禁用。如果，您发现工具没有禁用 uglify，可以通过命令行，手动禁用 uglify，见下文。
 
 ```base
-# 下载rollup-plugin-uglify
+# 下载
 yarn add rollup-plugin-uglify -D
 ```
 
@@ -145,7 +147,7 @@ export default {
 };
 ```
 
-###### 禁用 uglify
+#### 禁用 uglify
 
 通过命令行配置`--no-uglify`参数，即可禁用内置的 uglify 插件，不会影响，自定义的 uglify。
 
@@ -153,12 +155,12 @@ export default {
 rollup-cli-build --no-uglify --mode cjs
 ```
 
-#### 注意
+## 注意
 
 - `.env`为公共环境变量
 - `.env.[mode]`的环境变量生效优先级高于`.env`，
 
-#### 参与贡献
+## 参与贡献
 
 1.  Fork 本仓库
 2.  新建 Feat_xxx 分支
