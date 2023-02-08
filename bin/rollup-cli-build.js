@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-var path = require("path");
-var fs = require("fs");
-var { loadConfigFile } = require("rollup/dist/loadConfigFile.js");
-var rollup = require("rollup");
 require("../lib/loadEnv.js");
+var fs = require("fs");
+var path = require("path");
+var rollup = require("rollup");
+var { loadConfigFile } = require("rollup/dist/loadConfigFile.js");
+var { getReplaceEnvConfig } = require("../lib/replaceEnv");
+var { getUglifyPlugin, isNoUglify } = require("../lib/uglify");
 
 const isArray = (p) =>
   p && Object.prototype.toString.call(p) === "[object Array]";
@@ -27,28 +29,19 @@ function getConfigFilePath() {
   return fileConfigPath;
 }
 
-// 加载当前脚本旁边的配置文件；
+// 加载当前脚本旁边的配置文件
 loadConfigFile(getConfigFilePath()).then(async ({ options, warnings }) => {
   let config = isArray(options) ? options[0] : options || {};
-  // “warnings”包装了CLI传递的默认`onwarn`处理程序。
-  // 输出所有警告：
-  // "warnings" wraps the default `onwarn` handler passed by the CLI.
-  // This prints all warnings up to this point:
+  if (!config.plugins) config.plugins = [];
+  // 使用replace插件，将环境变量插入app中
+  config.plugins.unshift(getReplaceEnvConfig());
+  // 默认压缩代码
+  if (!isNoUglify(config.plugins)) config.plugins.push(getUglifyPlugin());
+
   console.log(`We currently have ${warnings.count} warnings`);
 
-  // 输出所有延迟的警告：
-  // This prints all deferred warnings
   warnings.flush();
 
-  // options是一个带有其他“output”属性的“ inputOptions”对象，该属性包含一个“ outputOptions”数组。
-  // 以下将生成所有输出，并将它们以与CLI相同的方式写入磁盘：
-  // options is an "inputOptions" object with an additional "output"
-  // property that contains an array of "outputOptions".
-  // The following will generate all outputs and write them to disk the same
-  // way the CLI does it:
   const bundle = await rollup.rollup(config);
   await Promise.all(config.output.map(bundle.write));
-
-  // 你也可以将其直接传递给 "rollup.watch"
-  // rollup.watch(options);
 });
