@@ -119,7 +119,6 @@ function getUglifyPlugin() {
   return uglify({
     mangle: {
       toplevel: true,
-      properties: true,
     },
   });
 }
